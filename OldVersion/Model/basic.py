@@ -93,7 +93,7 @@ class Basic():
         for i in range(50):
             try:
                 r = requests.get("https://www.googleapis.com/youtube/v3/videoCategories?part=snippet&hl=zh_TW&id="+str(
-                    i)+"&key="+"AIzaSyD68sYH_IW106P8MxfN2QbA9NSPWaXancM")
+                    i)+"&key="+"")
                 rjson = r.json()
                 print(rjson['items'][0]['snippet']['title'])
                 categorie.append(

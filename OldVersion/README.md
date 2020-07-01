@@ -139,15 +139,15 @@ UCo0lvDJ5ikc3hhD30ttGznw
         * 回覆內容同上
 7. 將內容規劃存置資料庫(待規劃)
 ## 內容參照
-* 步驟一 https://www.googleapis.com/youtube/v3/subscriptions?part=snippet,contentDetails&channelId=UCIF_gt4BfsWyM_2GOcKXyEQ&pageToken=CPoBEAA&maxResults=50&order=unread&key=AIzaSyD68sYH_IW106P8MxfN2QbA9NSPWaXancM
+* 步驟一 https://www.googleapis.com/youtube/v3/subscriptions?part=snippet,contentDetails&channelId=UCIF_gt4BfsWyM_2GOcKXyEQ&pageToken=CPoBEAA&maxResults=50&order=unread&key=
 
-* 步驟三 https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics,contentDetails,status&id=UCIF_gt4BfsWyM_2GOcKXyEQ,UCopwutkKMLyT58fJh3ZqLZA&key=AIzaSyD68sYH_IW106P8MxfN2QbA9NSPWaXancM
+* 步驟三 https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics,contentDetails,status&id=UCIF_gt4BfsWyM_2GOcKXyEQ,UCopwutkKMLyT58fJh3ZqLZA&key=
 
-* 步驟四 https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId=UUIF_gt4BfsWyM_2GOcKXyEQ&maxResults=50&key=AIzaSyD68sYH_IW106P8MxfN2QbA9NSPWaXancM
+* 步驟四 https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId=UUIF_gt4BfsWyM_2GOcKXyEQ&maxResults=50&key=
 
-* 步驟五 https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,status,statistics&id=7SPY9098mQs&key=AIzaSyD68sYH_IW106P8MxfN2QbA9NSPWaXancM
+* 步驟五 https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,status,statistics&id=7SPY9098mQs&key=
 
-* 步驟六 https://www.googleapis.com/youtube/v3/commentThreads/?part=snippet,replies&videoId=BmikzqP-9MU&maxResults=100&pageToken=&key=AIzaSyD68sYH_IW106P8MxfN2QbA9NSPWaXancM
+* 步驟六 https://www.googleapis.com/youtube/v3/commentThreads/?part=snippet,replies&videoId=BmikzqP-9MU&maxResults=100&pageToken=&key=
 ## 預期所需資料
 ### 頻道
 
