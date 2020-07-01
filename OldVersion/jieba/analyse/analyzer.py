@@ -1,10 +1,10 @@
 # encoding=utf-8
 from __future__ import unicode_literals
-from whoosh.analysis import RegexAnalyzer, LowercaseFilter, StopFilter, StemFilter
+from whoosh.analysis import LowercaseFilter, StopFilter, StemFilter
 from whoosh.analysis import Tokenizer, Token
 from whoosh.lang.porter import stem
 
-import jieba
+from OldVersion import jieba
 import re
 
 STOP_WORDS = frozenset(('a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'can',

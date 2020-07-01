@@ -1,35 +1,19 @@
 # -*- coding: utf-8 -*-
-from apiclient import discovery
-from oauth2client import client
-from oauth2client import tools
-from oauth2client.file import Storage
-import os
-import getpass
-import httplib2
 import json
 import random
-import requests
-import threading
-from collections import Counter
-from datetime import datetime, timedelta
+from datetime import datetime
 import time
-from OAuth.APIOAuth import get_credentials
-from Model.ytapi.subscriptionlist import SubscriptList
-from Model.ytapi.channel_info import ChannelInfo
-from Model.ytapi.serachPlaylist import VideoList
-from Model.ytapi.videoInfo import VideoInfo
-from Model.ytapi.comment import CommentThreads, CommentThreadsSingle
-from Model.data_filter import DataFilter
-from Model.integrate_list import Integrate, Single
-from Model.wordcloud import Wordcloud
-from Model.jieba_split import Jiebatext
-from Model.videotag_analyze import TagAnalyze
-from Model.basic import Basic
-from Model.focusmod import Focus
-from Model.updateinfo import FileUpdate
-import Model.database_control
-import Model.sql_function
-import difflib
+from OldVersion.Model.ytapi.subscriptionlist import SubscriptList
+from OldVersion.Model.ytapi.channel_info import ChannelInfo
+from OldVersion.Model.ytapi import VideoList
+from OldVersion.Model.ytapi.videoInfo import VideoInfo
+from OldVersion.Model.ytapi.comment import CommentThreads
+from OldVersion.Model.data_filter import DataFilter
+from OldVersion.Model.integrate_list import Integrate, Single
+from OldVersion.Model.videotag_analyze import TagAnalyze
+from OldVersion.Model.basic import Basic
+from OldVersion.Model.focusmod import Focus
+from OldVersion.Model.updateinfo import FileUpdate
 
 
 class Process():
@@ -382,15 +366,15 @@ class Process():
 
 
 try:
-    with open('./config/SavePath.json', 'r') as path:
+    with open('config/SavePath.json', 'r') as path:
         SavePath = json.loads(path.read())
-    with open('./config/datalist.json', 'r') as datalist:
+    with open('config/datalist.json', 'r') as datalist:
         datalist = json.loads(datalist.read())
-    with open('./config/FilterValue.json', 'r') as FilterValue:
+    with open('config/FilterValue.json', 'r') as FilterValue:
         FilterValue = json.loads(FilterValue.read())
-    with open('./config/DBsetting.json', 'r') as DBsetting:
+    with open('config/DBsetting.json', 'r') as DBsetting:
         DBsetting = json.loads(DBsetting.read())
-    with open('./config/category.json', 'r') as category:
+    with open('config/category.json', 'r') as category:
         category = json.loads(category.read())
     print('config checked!')
 except Exception as identifier:

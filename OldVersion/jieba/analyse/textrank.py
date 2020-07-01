@@ -2,10 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import absolute_import, unicode_literals
-import sys
 from operator import itemgetter
 from collections import defaultdict
-import jieba.posseg
 from .tfidf import KeywordExtractor
 from .._compat import *
 
@@ -57,7 +55,7 @@ class UndirectWeightedGraph:
 class TextRank(KeywordExtractor):
 
     def __init__(self):
-        self.tokenizer = self.postokenizer = jieba.posseg.dt
+        self.tokenizer = self.postokenizer = OldVersion.jieba.posseg.dt
         self.stop_words = self.STOP_WORDS.copy()
         self.pos_filt = frozenset(('ns', 'n', 'vn', 'v'))
         self.span = 5

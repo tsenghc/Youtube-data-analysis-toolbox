@@ -1,8 +1,8 @@
 # encoding=utf-8
 from __future__ import absolute_import
 import os
-import jieba
-import jieba.posseg
+from OldVersion import jieba
+import OldVersion.jieba.posseg
 from operator import itemgetter
 
 _get_module_path = lambda path: os.path.normpath(os.path.join(os.getcwd(),
@@ -60,7 +60,7 @@ class TFIDF(KeywordExtractor):
 
     def __init__(self, idf_path=None):
         self.tokenizer = jieba.dt
-        self.postokenizer = jieba.posseg.dt
+        self.postokenizer = OldVersion.jieba.posseg.dt
         self.stop_words = self.STOP_WORDS.copy()
         self.idf_loader = IDFLoader(idf_path or DEFAULT_IDF)
         self.idf_freq, self.median_idf = self.idf_loader.get_idf()

@@ -1,6 +1,5 @@
 """Jieba command line interface."""
-import sys
-import jieba
+from .. import jieba
 from argparse import ArgumentParser
 from ._compat import *
 
@@ -29,10 +28,10 @@ args = parser.parse_args()
 if args.quiet:
     jieba.setLogLevel(60)
 if args.pos:
-    import jieba.posseg
+    import OldVersion.jieba.posseg
     posdelim = args.pos
     def cutfunc(sentence, _, HMM=True):
-        for w, f in jieba.posseg.cut(sentence, HMM):
+        for w, f in OldVersion.jieba.posseg.cut(sentence, HMM):
             yield w + posdelim + f
 else:
     cutfunc = jieba.cut
