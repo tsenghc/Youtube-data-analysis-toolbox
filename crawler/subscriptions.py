@@ -4,7 +4,7 @@ from oauth.api_oauth import youtube
 from utils import error_code
 
 
-def get_subscriber_by_id(channelId, maxResult):
+def get_subscriber_by_id(channelId, maxResult=50, pageToken=None):
     """Get a subscriber raw data
 
     Args:
@@ -21,7 +21,8 @@ def get_subscriber_by_id(channelId, maxResult):
         request_subscriber = youtube.subscriptions().list(
             part="snippet",
             channelId=channelId,
-            maxResults=maxResult
+            maxResults=maxResult,
+            pageToken=pageToken
         )
         subscribers = request_subscriber.execute()
     except Exception as e:
