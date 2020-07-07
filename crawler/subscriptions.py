@@ -28,11 +28,52 @@ def get_subscriber_by_id(channelId, maxResult=50, pageToken=None):
     except Exception as e:
         print(e)
 
-    if not isinstance(subscribers, dict):
+    try:
+        if isinstance(subscribers, dict):
+            return subscribers
+    except Exception as e:
         return error_code.SUBSCRIPTIONS_API_ERROR
 
-    return subscribers
+
+def foreach_subscriber_by_channel(channelId):
+    """
+
+    Args:
+        channelId: Youtube channelId
+
+    Returns:
+        [list]:The channel all of subscribers channelId
+
+    """
+    subscribers_list = []
+    subscribers_data = get_subscriber_by_id(channelId)
+    if not isinstance(subscribers_data, dict):
+        return error_code.SUBSCRIPTIONS_API_ERROR
+
+    token = subscribers_data.get("nextPageToken", None)
+
+    if not token:
+        for items in subscribers_data["items"]:
+            subscribers_list.append(items["snippet"]["resourceId"]["channelId"])
+        return subscribers_list
+
+    while token is not None:
+        try:
+            token = subscribers_data["nextPageToken"]
+        except Exception as e:
+            token = None
+
+        for items in subscribers_data["items"]:
+            subscribers_list.append(items["snippet"]["resourceId"]["channelId"])
+        subscribers_data = get_subscriber_by_id(channelId, pageToken=token)
+
+    return subscribers_list
 
 
 if __name__ == "__main__":
-    print(get_subscriber_by_id(channelId="UCIF_gt4BfsWyM_2GOcKXyEQ", maxResult=50))
+    channelId = "UCIF_gt4BfsWyM_2GOcKXyEQ"
+    channelId2 = "UC8TtAsZE51ekqffnNASo7DA"
+    channelId3 = "UCAfAQOlKYd6ECvqEMiMrjaA"
+    # print(get_subscriber_by_id(channelId))
+    subscriber_list = foreach_subscriber_by_channel(channelId3)
+    print((subscriber_list))
