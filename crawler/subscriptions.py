@@ -4,7 +4,7 @@ from oauth.api_oauth import youtube
 from utils import error_code
 
 
-def get_subscriber_by_id(channelId, maxResult=50, pageToken=None):
+def get_subscriber_by_id(channelId: str, maxResult=50, pageToken=None) -> dict:
     """Get a subscriber raw data
 
     Args:
@@ -35,7 +35,7 @@ def get_subscriber_by_id(channelId, maxResult=50, pageToken=None):
         return error_code.SUBSCRIPTIONS_API_ERROR
 
 
-def foreach_subscriber_by_channel(channelId):
+def foreach_subscriber_by_channel(channelId: str) -> list[str]:
     """
 
     Args:
@@ -74,6 +74,6 @@ if __name__ == "__main__":
     channelId = "UCIF_gt4BfsWyM_2GOcKXyEQ"
     channelId2 = "UC8TtAsZE51ekqffnNASo7DA"
     channelId3 = "UCAfAQOlKYd6ECvqEMiMrjaA"
-    # print(get_subscriber_by_id(channelId))
+    print(get_subscriber_by_id(channelId))
     subscriber_list = foreach_subscriber_by_channel(channelId3)
     print((subscriber_list))
