@@ -14,7 +14,7 @@ def get_subscriber_by_id(channelId: str, maxResult=50, pageToken=None) -> dict:
 
     Returns:
         [dict]:Subscriptions API raw data
-        [int]:API error(400)
+        [int]:(3400)SUBSCRIPTIONS_API_ERROR
 
     """
     try:
@@ -32,10 +32,11 @@ def get_subscriber_by_id(channelId: str, maxResult=50, pageToken=None) -> dict:
         if isinstance(subscribers, dict):
             return subscribers
     except Exception as e:
+        print("channelID:{},Exception:{}".format(channelId, e))
         return error_code.SUBSCRIPTIONS_API_ERROR
 
 
-def foreach_subscriber_by_channel(channelId: str) -> list[str]:
+def foreach_subscriber_by_channel(channelId: str) -> list:
     """
 
     Args:
@@ -61,6 +62,7 @@ def foreach_subscriber_by_channel(channelId: str) -> list[str]:
         try:
             token = subscribers_data["nextPageToken"]
         except Exception as e:
+            print("channelID:{},Exception:{}".format(channelId, e))
             token = None
 
         for items in subscribers_data["items"]:
@@ -68,12 +70,3 @@ def foreach_subscriber_by_channel(channelId: str) -> list[str]:
         subscribers_data = get_subscriber_by_id(channelId, pageToken=token)
 
     return subscribers_list
-
-
-if __name__ == "__main__":
-    channelId = "UCIF_gt4BfsWyM_2GOcKXyEQ"
-    channelId2 = "UC8TtAsZE51ekqffnNASo7DA"
-    channelId3 = "UCAfAQOlKYd6ECvqEMiMrjaA"
-    print(get_subscriber_by_id(channelId))
-    subscriber_list = foreach_subscriber_by_channel(channelId3)
-    print((subscriber_list))
