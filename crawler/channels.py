@@ -5,7 +5,7 @@ from utils import error_code
 
 
 def get_channel_detail(channelId: str) -> dict:
-    """
+    """Get channel detail
 
     Args:
         channelId([str]):Youtube channelId
@@ -26,10 +26,7 @@ def get_channel_detail(channelId: str) -> dict:
     except Exception as e:
         print(e)
 
-    try:
-        if isinstance(response, dict):
-            return response
-    except Exception as e:
-        print(e)
+    if isinstance(response, dict):
+        return response
 
     return error_code.CHANNELS_API_ERROR
