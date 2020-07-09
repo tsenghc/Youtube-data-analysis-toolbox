@@ -26,18 +26,17 @@ def get_subscriber_by_id(channelId: str, maxResult=50, pageToken=None) -> dict:
         )
         subscribers = request_subscriber.execute()
     except Exception as e:
-        print(e)
+        print("channelID:{},Http_code:{}".format(channelId, e.args[0]["status"]))
+        subscribers = {"error": e.args[0]["status"]}
 
-    try:
-        if isinstance(subscribers, dict):
-            return subscribers
-    except Exception as e:
-        print("channelID:{},Exception:{}".format(channelId, e))
-        return error_code.SUBSCRIPTIONS_API_ERROR
+    if isinstance(subscribers, dict):
+        return subscribers
+
+    return error_code.SUBSCRIPTIONS_API_ERROR
 
 
 def foreach_subscriber_by_channel(channelId: str) -> list:
-    """
+    """Traverse subscribers list
 
     Args:
         channelId: Youtube channelId
@@ -51,22 +50,20 @@ def foreach_subscriber_by_channel(channelId: str) -> list:
     if not isinstance(subscribers_data, dict):
         return error_code.SUBSCRIPTIONS_API_ERROR
 
-    token = subscribers_data.get("nextPageToken", None)
+    if subscribers_data.get("error", False):
+        subscribers_list.append(subscribers_data["error"])
+        return subscribers_list
+
+    token = subscribers_data.get("nextPageToken", False)
 
     if not token:
         for items in subscribers_data["items"]:
             subscribers_list.append(items["snippet"]["resourceId"]["channelId"])
         return subscribers_list
 
-    while token is not None:
-        try:
-            token = subscribers_data["nextPageToken"]
-        except Exception as e:
-            print("channelID:{},Exception:{}".format(channelId, e))
-            token = None
-
+    while token is not False:
+        token = subscribers_data.get("nextPageToken", False)
         for items in subscribers_data["items"]:
             subscribers_list.append(items["snippet"]["resourceId"]["channelId"])
         subscribers_data = get_subscriber_by_id(channelId, pageToken=token)
-
     return subscribers_list
