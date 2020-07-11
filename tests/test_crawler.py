@@ -1,6 +1,6 @@
 import unittest
 
-from crawler import subscriptions, channels, playlists
+from crawler import subscriptions, channels, playlists, playlistItem
 
 
 class crawlers(unittest.TestCase):
@@ -28,6 +28,15 @@ class crawlers(unittest.TestCase):
             result = playlists.foreach_playlistId_by_channel(channelId=channel)
             print(result)
             result = isinstance(result, list) or isinstance(result, int)
+            self.assertTrue(result)
+
+    def test_get_playlist_video(self):
+        for channel in self.channel_list:
+            channel_detail = channels.get_channel_detail(channel)
+            channel_playlist = channel_detail["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
+            result = playlistItem.foreach_playlist_videoId(channel_playlist)
+            print("channel:{},VideoCount:{}".format(channel, len(result)))
+            result = isinstance(result, list)
             self.assertTrue(result)
 
 
