@@ -1,6 +1,6 @@
 import unittest
 
-from crawler import subscriptions, channels, playlists, playlistItem
+from crawler import subscriptions, channels, playlists, playlistItem, videos, comments
 
 
 class crawlers(unittest.TestCase):
@@ -38,6 +38,30 @@ class crawlers(unittest.TestCase):
             print("channel:{},VideoCount:{}".format(channel, len(result)))
             result = isinstance(result, list)
             self.assertTrue(result)
+
+    def test_get_video_detail(self):
+        for channel in self.channel_list:
+            channel_detail = channels.get_channel_detail(channel)
+            channel_playlist = channel_detail["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
+            video_list = playlistItem.get_firstPage_videoId(channel_playlist, 2)
+            for videoid in video_list:
+                result = videos.get_video_detail(videoId=videoid)
+                print(result["items"][0]["snippet"]["title"])
+                result = isinstance(result, dict)
+                self.assertTrue(result)
+
+    def test_get_video_comments_text(self):
+        for channel in self.channel_list:
+            channel_detail = channels.get_channel_detail(channel)
+            channel_playlist = channel_detail["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
+            video_list = playlistItem.get_firstPage_videoId(channel_playlist, maxResult=2)
+            for videoid in video_list:
+                comments_result = comments.get_video_comments(videoid, maxResult=1)["items"]
+                for comment in comments_result:
+                    result = comment["snippet"]["topLevelComment"]["snippet"]["textOriginal"]
+                    print(result)
+                    result = isinstance(result, str)
+                    self.assertTrue(result)
 
 
 if __name__ == '__main__':
