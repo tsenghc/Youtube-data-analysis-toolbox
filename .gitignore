@@ -6,3 +6,5 @@ venv/
 oauth/__pycache__/
 
 utils/__pycache__/
+
+.vscode/

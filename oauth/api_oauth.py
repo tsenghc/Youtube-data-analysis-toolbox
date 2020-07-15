@@ -1,5 +1,5 @@
 import googleapiclient.discovery
-import os
+
 from utils.config import API_DEVELOPER_KEY
 
 api_service_name = "youtube"
