@@ -1,0 +1,43 @@
+{
+  "kind": "youtube#commentThreadListResponse",
+  "etag": "-c9hgnZFDkrvJ4RPAhEAp72xDqE",
+  "nextPageToken": "QURTSl9pMzlWTDZFbkZzakktakx2NkVkNS0zdUNCNjc2MHZDSlN4V3ZXenZvQ1RBMUlxRG1hWHIzSHlCRUt1ZjVadXpza2ZDQWRjNGRMc09lT1IzOEloUklBUHJqSWt2aUxXVE91c1dtRjlVYXpJcXVaS3EwNTlaNGlobkszcUE=",
+  "pageInfo": {
+    "totalResults": 1,
+    "resultsPerPage": 1
+  },
+  "items": [
+    {
+      "kind": "youtube#commentThread",
+      "etag": "bfAnEoYXk4btvsNH7YCmFHOWtYg",
+      "id": "Ugzbpq0HL8KR6SiFghh4AaABAg",
+      "snippet": {
+        "videoId": "CRt9mwO7_eg",
+        "topLevelComment": {
+          "kind": "youtube#comment",
+          "etag": "XVyqXt-wEM_anhkua1vMoitU0mU",
+          "id": "Ugzbpq0HL8KR6SiFghh4AaABAg",
+          "snippet": {
+            "videoId": "CRt9mwO7_eg",
+            "textDisplay": "堂主，我研究了今天6/18大漲的股票，3529力旺跟4966諳瑞，可是我看完日K、週K，型態感覺不出來有均線糾結，RSI也都是60-80之間，造成我如果是在之前注意到的話根本不會購買這兩隻股票，可是實際上他漲了，想請教堂主的看法，是我這邊的型態及技術研究錯了嗎？或是堂主有其他的分析呢？",
+            "textOriginal": "堂主，我研究了今天6/18大漲的股票，3529力旺跟4966諳瑞，可是我看完日K、週K，型態感覺不出來有均線糾結，RSI也都是60-80之間，造成我如果是在之前注意到的話根本不會購買這兩隻股票，可是實際上他漲了，想請教堂主的看法，是我這邊的型態及技術研究錯了嗎？或是堂主有其他的分析呢？",
+            "authorDisplayName": "Ricky Hsu",
+            "authorProfileImageUrl": "https://yt3.ggpht.com/a/AATXAJzlKRtCFoSVeib8IrNeOF6Yo5RZSbutCI867g=s48-c-k-c0xffffffff-no-rj-mo",
+            "authorChannelUrl": "http://www.youtube.com/channel/UCw2h95tPbVyxBulXRyEVa0A",
+            "authorChannelId": {
+              "value": "UCw2h95tPbVyxBulXRyEVa0A"
+            },
+            "canRate": true,
+            "viewerRating": "none",
+            "likeCount": 0,
+            "publishedAt": "2020-06-18T08:15:44Z",
+            "updatedAt": "2020-06-18T08:19:09Z"
+          }
+        },
+        "canReply": true,
+        "totalReplyCount": 0,
+        "isPublic": true
+      }
+    }
+  ]
+}
