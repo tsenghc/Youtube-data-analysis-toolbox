@@ -1,25 +1,47 @@
-from service.storage.models import Subscriptions
+from datetime import datetime
+
 from service.crawler import subscriptions, channels
+from service.storage.models import Subscriptions
 
 
-def relate_channel(channel_id: str) -> True:
-    channel_list = subscriptions.foreach_subscriber_by_channel(channel_id)
-    for channel in channel_list:
-        channel_detail = channels.get_channel_detail(channel)
+def subscription_channel(channel_id: str) -> bool:
+    """該頻道訂閱的公開使用者
+
+    Args:
+        channel_id: Youtube channel id.
+
+    Returns:
+        [bool]:The true if success else fail.
+
+    """
+    subscribed_ORM = []
+    user_public_subscription_list = \
+        subscriptions.foreach_subscriber_by_channel(channel_id)
+
+    print("This channel subscription user have {}".format(
+        len(user_public_subscription_list)))
+
+    for channel in user_public_subscription_list:
+        channel_detail = channels.get_channel_detail(
+            channel)["items"][0]["snippet"]
         subscript_model = Subscriptions(
             resourceChannelId=channel,
             originalChannelId=channel_id,
-            subscriptAt=channel_detail["items"][0]["snippet"]["publishedAt"],
-            resourceTitle=channel_detail["items"][0]["snippet"]["title"],
-            resourceDescription=channel_detail["items"][0]["snippet"]["description"]
+            subscriptAt=channel_detail["publishedAt"],
+            resourceTitle=channel_detail["title"],
+            resourceDescription=channel_detail["description"],
+            writeTime=datetime.utcnow()
         )
-        try:
-            subscript_model.save_to_db()
-            print(subscript_model)
-        except:
-            pass
+        subscribed_ORM.append(subscript_model)
 
+    try:
+        subscript_model.batch_save_to_db(subscribed_ORM)
+        return True
+    except Exception:
+        print(Exception)
+        return False
 
 
 if __name__ == '__main__':
-    relate_channel("UCPRWWKG0VkBA0Pqa4Jr5j0Q")
+    subscription_channel("UCPRWWKG0VkBA0Pqa4Jr5j0Q")
+    pass
