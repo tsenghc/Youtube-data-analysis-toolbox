@@ -1,7 +1,9 @@
 from datetime import datetime
 
+from app import app
+
 from service.crawler import subscriptions, channels
-from service.storage.models import Subscriptions
+from service.storage.models import Subscriptions, db
 
 
 def subscription_channel(channel_id: str) -> bool:
@@ -35,11 +37,15 @@ def subscription_channel(channel_id: str) -> bool:
         subscribed_ORM.append(subscript_model)
 
     try:
-        subscript_model.batch_save_to_db(subscribed_ORM)
+        with app.app_context():
+            db.session.add_all(subscribed_ORM)
+            db.session.commit()
+
         return True
     except Exception:
         print(Exception)
-        return False
+
+    return False
 
 
 if __name__ == '__main__':

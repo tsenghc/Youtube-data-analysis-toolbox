@@ -28,12 +28,6 @@ class Subscriptions(db.Model):
         self.resourceDescription = resourceDescription
         self.writeTime = writeTime
 
-    @staticmethod
-    def batch_save_to_db(channel_list):
-        with app.app_context():
-            db.session.add_all(channel_list)
-            db.session.commit()
-
 
 class ChannelDetail(db.Model):
     __tablename__ = 'channel'
@@ -144,3 +138,57 @@ class VideoDetail(db.Model):
         self.dislikeCount = dislikeCount
         self.favoriteCount = favoriteCount
         self.commentCount = commentCount
+
+
+class TopLevelComment(db.Model):
+    __tablename__ = 'top_level_comment'
+    CommentId = db.Column(db.String(26), primary_key=True, nullable=False)
+    videoId = db.Column(db.String(11), nullable=False)
+    textOriginal = db.Column(db.String, nullable=False)
+    authorDisplayName = db.Column(db.String, nullable=False)
+    authorChannelId = db.Column(db.String, nullable=False)
+    likeCount = db.Column(db.Integer, nullable=False)
+    publishedAt = db.Column(db.DateTime, nullable=False)
+    updatedAt = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self,
+                 commentId, videoId,
+                 textOriginal, authorDisplayName,
+                 authorChannelId, likeCount,
+                 publishedAt, updatedAt):
+        self.CommentId = commentId
+        self.videoId = videoId
+        self.textOriginal = textOriginal
+        self.authorDisplayName = authorDisplayName
+        self.authorChannelId = authorChannelId
+        self.likeCount = likeCount
+        self.publishedAt = publishedAt
+        self.updatedAt = updatedAt
+
+
+class RepliesComments(db.Model):
+    __tablename__ = 'replies_comments'
+    commentsId = db.Column(db.String(49), primary_key=True, nullable=False)
+    parentId = db.Column(db.String(26), nullable=False)
+    videoId = db.Column(db.String(11), nullable=False)
+    textOriginal = db.Column(db.String, nullable=False)
+    authorDisplayName = db.Column(db.String, nullable=False)
+    authorChannelId = db.Column(db.String, nullable=False)
+    likeCount = db.Column(db.Integer, nullable=False)
+    publishedAt = db.Column(db.DateTime, nullable=False)
+    updatedAt = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self,
+                 commentId, videoId, parentId,
+                 textOriginal, authorDisplayName,
+                 authorChannelId, likeCount,
+                 publishedAt, updatedAt):
+        self.commentsId = commentId
+        self.parentId = parentId
+        self.videoId = videoId
+        self.textOriginal = textOriginal
+        self.authorDisplayName = authorDisplayName
+        self.authorChannelId = authorChannelId
+        self.likeCount = likeCount
+        self.publishedAt = publishedAt
+        self.updatedAt = updatedAt
