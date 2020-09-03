@@ -4,7 +4,8 @@ from app import app
 from sqlalchemy.exc import SQLAlchemyError
 
 from service.crawler import subscriptions, channels
-from service.storage.models import *
+from service.storage.models import Subscriptions, ChannelList, db, ChannelSnippet, ChannelStatistics, \
+    ChannelContentDetail
 
 
 def save_channel_subscription(channel_id: str) -> bool:
@@ -50,7 +51,7 @@ def save_channel_subscription(channel_id: str) -> bool:
             db.session.commit()
 
     except SQLAlchemyError as e:
-        print("insert channel list error")
+        print("insert channel list error:{}".format(type(e)))
 
     try:
         with app.app_context():
@@ -58,7 +59,7 @@ def save_channel_subscription(channel_id: str) -> bool:
             db.session.commit()
         return True
     except SQLAlchemyError as e:
-        print("subscribed day error")
+        print("subscribed day error:{}".format(type(e)))
 
     return False
 
