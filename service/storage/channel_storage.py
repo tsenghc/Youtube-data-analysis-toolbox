@@ -116,15 +116,13 @@ def save_channel_detail(channel_id: str) -> bool:
         with app.app_context():
             db.session.add(channel_list_model)
             db.session.commit()
-        pass
     except SQLAlchemyError as e:
         print("channel_list_model_error:{}".format(type(e)))
 
-    with app.app_context():
-        db.session.add(snippet_model)
-        db.session.commit()
     try:
-        pass
+        with app.app_context():
+            db.session.add(snippet_model)
+            db.session.commit()
     except SQLAlchemyError as e:
         print("snippet_model_error:{}".format(type(e)))
 
@@ -138,7 +136,6 @@ def save_channel_detail(channel_id: str) -> bool:
         with app.app_context():
             db.session.add(contentDetails_model)
             db.session.commit()
-
         return True
     except SQLAlchemyError as e:
         print("contentDetails_model_error{}".format(type(e)))
@@ -148,9 +145,4 @@ def save_channel_detail(channel_id: str) -> bool:
 
 if __name__ == '__main__':
     save_channel_subscription("UCPRWWKG0VkBA0Pqa4Jr5j0Q")
-    tt = subscriptions.foreach_subscriber_by_channel("UCPRWWKG0VkBA0Pqa4Jr5j0Q")
-    for i in tt:
-        save_channel_detail(i)
-        print(i)
-
-    pass
+    save_channel_detail("UCPRWWKG0VkBA0Pqa4Jr5j0Q")
