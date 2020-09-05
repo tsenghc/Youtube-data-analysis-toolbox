@@ -106,14 +106,11 @@ class Keywords(db.Model):
 
 class ChannelPlaylistItem(db.Model):
     __tablename__ = 'channel_playlist_items'
-    video_id = db.Column(db.String(11), primary_key=True, nullable=False)
-    video_published_at = db.Column(db.DateTime, nullable=False)
+    video_id = db.Column(db.String(11), primary_key=True, nullable=False, index=True, unique=True)
     channel_id = db.Column(db.String(24), nullable=False)
 
-    def __init__(self, videoId, videoPublishedAt, channelId):
-        self.video_id = videoId
-        self.video_published_at = videoPublishedAt
-        self.channel_id = channelId
+    def __init__(self, **kwargs):
+        super(ChannelPlaylistItem, self).__init__(**kwargs)
 
 
 class VideoDetail(db.Model):
@@ -126,6 +123,7 @@ class VideoDetail(db.Model):
     )
     title = db.Column(db.String(70), nullable=False)
     description = db.Column(db.String(1000), nullable=True)
+    video_published_at = db.Column(db.DateTime, nullable=False)
     tags = db.Column(db.JSON, nullable=False, default=None)
     category_id = db.Column(db.SMALLINT, nullable=False)
     default_audio_language = db.Column(db.String(5), nullable=False)
