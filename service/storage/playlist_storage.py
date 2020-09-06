@@ -23,7 +23,7 @@ def check_content_exist(channel_id: str) -> bool:
             else:
                 return True
     except SQLAlchemyError as e:
-        print(type(e))
+        print("check_content_exist:{}".format(type(e)))
         return False
 
 
