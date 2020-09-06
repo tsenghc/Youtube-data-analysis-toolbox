@@ -122,12 +122,13 @@ class VideoDetail(db.Model):
         nullable=False,
     )
     title = db.Column(db.String(70), nullable=False)
-    description = db.Column(db.String(1000), nullable=True)
+    description = db.Column(db.String(5000), nullable=True)
     video_published_at = db.Column(db.DateTime, nullable=False)
     tags = db.Column(db.JSON, nullable=False, default=None)
     category_id = db.Column(db.SMALLINT, nullable=False)
     default_audio_language = db.Column(db.String(5), nullable=False)
-    live_broadcast_content = db.Column(db.String, nullable=False)
+    live_broadcast_content = db.Column(db.String, nullable=True)
+    update_time = db.Column(db.DateTime, default=func.now(), nullable=False)
 
     def __init__(self, **kwargs):
         super(VideoDetail, self).__init__(**kwargs)
@@ -145,6 +146,7 @@ class VideoStatistics(db.Model):
     dislike_count = db.Column(db.BIGINT, nullable=False, default=0)
     favorite_count = db.Column(db.BIGINT, nullable=False, default=0)
     comment_count = db.Column(db.BIGINT, nullable=False, default=0)
+    update_time = db.Column(db.DateTime, default=func.now(), nullable=False)
 
     def __init__(self, **kwargs):
         super(VideoStatistics, self).__init__(**kwargs)
