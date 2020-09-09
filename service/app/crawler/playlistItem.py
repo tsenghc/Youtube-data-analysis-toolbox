@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from oauth.api_oauth import youtube
-from utils import error_code
+from app.oauth.api_oauth import youtube
+from app.utils import error_code
 
 
 def get_playlist_content(playlistId: str, maxResult=50, pageToken=None) -> dict:
