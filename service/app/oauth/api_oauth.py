@@ -1,6 +1,6 @@
 import googleapiclient.discovery
 
-from utils.config import API_DEVELOPER_KEY
+from app.utils.config import API_DEVELOPER_KEY
 
 api_service_name = "youtube"
 api_version = "v3"

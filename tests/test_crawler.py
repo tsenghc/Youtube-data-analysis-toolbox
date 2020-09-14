@@ -1,6 +1,6 @@
 import unittest
 
-from crawler import subscriptions, channels, playlists, playlistItem, videos, comments
+from service.app.crawler import subscriptions, videos, playlists, channels, playlistItem, comments
 
 
 class crawlers(unittest.TestCase):
