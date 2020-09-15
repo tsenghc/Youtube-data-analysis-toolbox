@@ -1,9 +1,8 @@
 from app import app
+from app.crawler import videos
+from app.models import ChannelPlaylistItem, VideoDetail, VideoStatistics, db, MostPopular
+from app.storage.playlist_storage import save_channel_playlist_items, save_channel_videoid
 from sqlalchemy.exc import SQLAlchemyError
-
-from service.app.crawler import videos
-from service.app.models import ChannelPlaylistItem, VideoDetail, VideoStatistics, db
-from service.app.storage.playlist_storage import save_channel_playlist_items
 
 
 def check_video_exist(video_id: str) -> bool:
@@ -15,9 +14,7 @@ def check_video_exist(video_id: str) -> bool:
     try:
         with app.app_context():
             video = ChannelPlaylistItem.query.filter_by(video_id=video_id).first()
-            if video is None:
-                check_video_exist(video_id)
-            else:
+            if video is not None:
                 return True
     except SQLAlchemyError as e:
         print("check_video_exist:{}".format(type(e)))
@@ -102,6 +99,59 @@ def save_channel_video_detail(channel_id: str) -> bool:
     try:
         with app.app_context():
             db.session.add_all(statistics_ORM)
+            db.session.commit()
+    except SQLAlchemyError as e:
+        print("statistics:{}".format(type(e)))
+        return False
+
+    return True
+
+
+def save_video_statistics(video_id: str):
+    popular_video = videos.get_video_detail(video_id)
+    channel_id = popular_video['items'][0]['snippet']['channelId']
+
+    if not check_video_exist(video_id):
+        save_channel_videoid(channel_id=channel_id, video_id=video_id)
+
+    detail = popular_video['items'][0]
+    statistics_schemas = {
+        "video_id": video_id,
+        "view_count": detail['statistics']['viewCount'],
+        "like_count": detail['statistics'].get('likeCount', 0),
+        "dislike_count": detail['statistics'].get('dislikeCount', 0),
+        "favorite_count": detail['statistics']['favoriteCount'],
+        "comment_count": detail['statistics'].get('commentCount', 0),
+    }
+    statistics_model = VideoStatistics(**statistics_schemas)
+
+    try:
+        with app.app_context():
+            db.session.add(statistics_model)
+            db.session.commit()
+    except SQLAlchemyError as e:
+        print("statistics:{}".format(type(e)))
+        return False
+
+    return True
+
+
+def save_most_popular_video(regionCode: str, videoCategoryId: int):
+    popular_video_list = []
+    popular_video = videos.foreach_most_popular_video(regionCode, videoCategoryId)
+    for video_id in popular_video:
+        if not check_video_exist(video_id):
+            save_video_statistics(video_id)
+        popular_schemas = {
+            "video_id": video_id,
+            "rank": popular_video.index(video_id)
+        }
+        popular_model = MostPopular(**popular_schemas)
+        popular_video_list.append(popular_model)
+
+    try:
+        with app.app_context():
+            db.session.add_all(popular_video_list)
             db.session.commit()
     except SQLAlchemyError as e:
         print("statistics:{}".format(type(e)))

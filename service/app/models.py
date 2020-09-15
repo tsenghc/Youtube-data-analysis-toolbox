@@ -184,3 +184,18 @@ class RepliesComments(db.Model):
 
     def __init__(self, **kwargs):
         super(RepliesComments, self).__init__(**kwargs)
+
+
+class MostPopular(db.Model):
+    __tablename__ = 'most_popular'
+    id = db.Column(db.BIGINT, primary_key=True, autoincrement=True, nullable=False)
+    video_id = db.Column(
+        db.String(11),
+        ForeignKey('channel_playlist_items.video_id'),
+        nullable=False,
+    )
+    rank = db.Column(db.Integer, nullable=False)
+    update_time = db.Column(db.DateTime, default=func.now(), nullable=False)
+
+    def __init__(self, **kwargs):
+        super(MostPopular, self).__init__(**kwargs)

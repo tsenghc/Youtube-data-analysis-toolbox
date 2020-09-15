@@ -1,9 +1,8 @@
 from app import app
+from app.crawler import playlistItem
+from app.models import db, ChannelContentDetail, ChannelPlaylistItem
+from app.storage.channel_storage import save_channel_detail
 from sqlalchemy.exc import SQLAlchemyError
-
-from service.app.crawler import playlistItem
-from service.app.storage import save_channel_detail
-from service.app.models import db, ChannelContentDetail, ChannelPlaylistItem
 
 
 def check_content_exist(channel_id: str) -> bool:
@@ -59,6 +58,23 @@ def save_channel_playlist_items(channel_id: str) -> bool:
                 return True
         except SQLAlchemyError as e:
             print(type(e))
+    return False
+
+
+def save_channel_videoid(channel_id: str, video_id: str):
+    schemas = {
+        "video_id": video_id,
+        "channel_id": channel_id
+    }
+    play_list_model = ChannelPlaylistItem(**schemas)
+
+    try:
+        with app.app_context():
+            db.session.add(play_list_model)
+            db.session.commit()
+            return True
+    except SQLAlchemyError as e:
+        print(type(e))
     return False
 
 
