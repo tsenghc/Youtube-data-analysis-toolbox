@@ -9,6 +9,6 @@ utils/__pycache__/
 
 .vscode/
 
-service/app/storage/__pycache__/
+src/storage/__pycache__/
 
 *.pyc
