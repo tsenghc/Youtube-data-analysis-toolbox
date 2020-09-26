@@ -3,7 +3,7 @@ from models.model import Subscriptions, ChannelPlaylistItem, \
     ChannelContentDetail, ChannelList, \
     ChannelStatistics, ChannelSnippet, \
     TopLevelComment, RepliesComments, \
-    TopicIds, VideoStatistics
+    VideoStatistics
 from flask_migrate import MigrateCommand
 from flask_script import Manager, Shell
 
@@ -16,7 +16,7 @@ def make_shell_context():
                 ChannelContentDetail=ChannelContentDetail, ChannelList=ChannelList,
                 ChannelStatistics=ChannelStatistics, ChannelSnippet=ChannelSnippet,
                 TopLevelComment=TopLevelComment, RepliesComments=RepliesComments,
-                TopicIds=TopicIds, VideoStatistics=VideoStatistics)
+                VideoStatistics=VideoStatistics)
 
 
 manager.add_command('db', MigrateCommand)

@@ -82,34 +82,6 @@ class ChannelContentDetail(db.Model):
         super(ChannelContentDetail, self).__init__(**kwargs)
 
 
-class TopicIds(db.Model):
-    __tablename__ = 'channel_topic'
-    id = db.Column(db.BIGINT, primary_key=True,
-                   autoincrement=True, nullable=False)
-    channel_id = db.Column(db.String(24),
-                           ForeignKey("channel_list.channel_id"),
-                           nullable=False)
-    topic_name = db.Column(db.JSON, nullable=False)
-
-    def __init__(self, topicName, channelId):
-        self.topic_name = topicName
-        self.channel_id = channelId
-
-
-class Keywords(db.Model):
-    __tablename__ = 'channel_keywords'
-    id = db.Column(db.BIGINT, primary_key=True,
-                   autoincrement=True, nullable=False)
-    channel_id = db.Column(db.String(24),
-                           ForeignKey("channel_list.channel_id"),
-                           nullable=False)
-    keyword = db.Column(db.JSON, nullable=False)
-
-    def __init__(self, keyword, channelId):
-        self.keyword = keyword
-        self.channel_id = channelId
-
-
 class ChannelPlaylistItem(db.Model):
     __tablename__ = 'channel_playlist_items'
     video_id = db.Column(db.String(11), primary_key=True,
