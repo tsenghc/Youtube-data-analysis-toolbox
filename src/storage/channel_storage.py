@@ -1,4 +1,5 @@
 from datetime import datetime
+from sqlalchemy.sql.functions import user
 from .flask_app import create_app
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -19,11 +20,11 @@ def save_channel_subscription(channel_id: str) -> bool:
         [bool]:The true if success else fail.
 
     """
-    subscribed_ORM = []
-    channel_list_ORM = []
     user_subscribed_day_list = \
         subscriptions.channel_subscriber_day(channel_id)
 
+    if user_subscribed_day_list.get("error"):
+        return False
     print("This channel subscribed user have {}".format(
         len(user_subscribed_day_list)))
 
@@ -37,45 +38,20 @@ def save_channel_subscription(channel_id: str) -> bool:
         channel_list_schemas = {
             "channel_id": channel
         }
-        subscript_model = Subscriptions(**subscribe_schemas)
-        channel_list_model = ChannelList(**channel_list_schemas)
-        subscribed_ORM.append(subscript_model)
-        channel_list_ORM.append(channel_list_model)
         try:
             with app.app_context():
-                db.session.add(subscript_model)
-                db.session.add(channel_list_model)
+                db.session.add(ChannelList(**channel_list_schemas))
                 db.session.commit()
-                return True
         except SQLAlchemyError as e:
-            print("insert error:{}".format(type(e)))
+            print("insert channel_list error:{}".format(type(e)))
+        try:
+            with app.app_context():
+                db.session.add(Subscriptions(**subscribe_schemas))
+                db.session.commit()
+        except SQLAlchemyError as e:
+            print("insert subscripted error:{}".format(type(e)))
 
-    # channel_list_schemas = {"channel_id": channel_id}
-    # channel_list_model = ChannelList(**channel_list_schemas)
-
-    # try:
-    #     with app.app_context():
-    #         db.session.add_all(channel_list_ORM)
-    #         db.session.commit()
-    # except SQLAlchemyError as e:
-    #     print("insert channel list error:{}".format(type(e)))
-
-    # try:
-    #     with app.app_context():
-    #         db.session.add(channel_list_model)
-    #         db.session.commit()
-    # except SQLAlchemyError as e:
-    #     print("insert channel error:{}".format(type(e)))
-
-    # try:
-    #     with app.app_context():
-    #         db.session.add_all(subscribed_ORM)
-    #         db.session.commit()
-    #     return True
-    # except SQLAlchemyError as e:
-    #     print("subscribed day error:{}".format(type(e)))
-
-    return False
+    return True
 
 
 def save_channel_detail(channel_id: str) -> bool:
