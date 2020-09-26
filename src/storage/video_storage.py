@@ -1,7 +1,7 @@
 import re
 from .flask_app import create_app
 from crawler import videos
-from models.model import ChannelPlaylistItem, VideoDetail, VideoStatistics, db, MostPopular, VideoCategory
+from models.model import ChannelPlaylistItem, VideoDetail, VideoStatistics, db, MostPopular
 from .playlist_storage import save_channel_playlist_items, save_channel_videoid
 from sqlalchemy.exc import SQLAlchemyError
 app = create_app('development')
