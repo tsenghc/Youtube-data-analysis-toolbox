@@ -29,7 +29,7 @@ def get_subscriber_by_id(channelId: str,
         )
         subscribers = request_subscriber.execute()
     except Exception as e:
-        print("channelID:{},Http_code:{}".format(channelId, e.args[0]["status"]))
+        #print("channelID:{},Http_code:{}".format(channelId, e.args[0]["status"]))
         subscribers = {"error": e.args[0]["status"]}
 
     if isinstance(subscribers, dict):
