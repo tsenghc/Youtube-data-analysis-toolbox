@@ -22,6 +22,8 @@ class BaseConfig:
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {'pool_recycle': 280,
+                                 'pool_timeout': 100, 'pool_pre_ping': True}
     POSTGRES = {
         'user': 'postgres',
         'password': '4311',
