@@ -101,12 +101,12 @@ class VideoDetail(db.Model):
         ForeignKey('channel_playlist_items.video_id'),
         nullable=False,
     )
-    title = db.Column(db.String(70), nullable=False)
+    title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(5000), nullable=True)
     video_published_at = db.Column(db.DateTime, nullable=False)
     tags = db.Column(db.JSON, nullable=False, default=None)
     category_id = db.Column(db.SMALLINT, nullable=False)
-    default_audio_language = db.Column(db.String(5), nullable=False)
+    default_audio_language = db.Column(db.String, nullable=False)
     live_broadcast_content = db.Column(db.String, nullable=True)
     update_time = db.Column(db.DateTime, default=func.now(), nullable=False)
 
