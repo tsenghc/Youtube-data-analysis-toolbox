@@ -1,9 +1,11 @@
 import re
+
+from sqlalchemy import util
 from .flask_app import create_app
 from crawler import videos
 from models.model import ChannelPlaylistItem, VideoDetail, VideoStatistics, db, MostPopular
 from .playlist_storage import save_channel_playlist_items, save_channel_videoid
-from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.exc import SQLAlchemyError, DataError
 app = create_app('development')
 
 
@@ -108,6 +110,35 @@ def save_channel_video_detail(channel_id: str) -> bool:
         print("statistics:{}".format(type(e)))
         return False
 
+    return True
+
+
+def save_video_detail(video_id: str):
+    detail = videos.get_video_detail(video_id)
+    if 'items' not in detail:
+        return False
+    if len(detail['items']) == 0:
+        return False
+
+    detail = detail['items'][0]
+    snippet_schemas = {
+        "video_id": video_id,
+        "title": detail['snippet']['title'],
+        "description": detail['snippet']['description'],
+        "video_published_at": detail['snippet']['publishedAt'],
+        "tags": detail['snippet'].get('tags', []),
+        "category_id": detail['snippet']['categoryId'],
+        "default_audio_language": detail.get('snippet', {}).get('defaultAudioLanguage', 'none'),
+        "live_broadcast_content": detail['snippet']['liveBroadcastContent']
+    }
+    try:
+        with app.app_context():
+            db.session.add(VideoDetail(**snippet_schemas))
+            db.session.commit()
+        pass
+    except SQLAlchemyError as e:
+        print("snippet:{}|{}|".format(e.args[0], snippet_schemas))
+        return False
     return True
 
 
