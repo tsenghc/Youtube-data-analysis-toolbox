@@ -25,7 +25,7 @@ def save_video_comments(video_id: str) -> bool:
             "video_id": comment['snippet']['videoId'],
             "text_original": comment['snippet']['textOriginal'],
             "author_display_name": comment['snippet']['authorDisplayName'],
-            "author_channel_id": comment['snippet']['authorChannelId']['value'],
+            "author_channel_id": comment['snippet'].get('authorChannelId', {}).get('value', "none"),
             "like_count": comment['snippet']['likeCount'],
             "published_at": comment['snippet']['publishedAt'],
             "updated_at": comment['snippet']['updatedAt']
@@ -39,7 +39,7 @@ def save_video_comments(video_id: str) -> bool:
                 "video_id": comment['snippet']['videoId'],
                 "text_original": comment['snippet']['textOriginal'],
                 "author_display_name": comment['snippet']['authorDisplayName'],
-                "author_channel_id": comment['snippet']['authorChannelId']['value'],
+                "author_channel_id": comment['snippet'].get('authorChannelId', {}).get('value', "none"),
                 "like_count": comment['snippet']['likeCount'],
                 "published_at": comment['snippet']['publishedAt'],
                 "updated_at": comment['snippet']['updatedAt']
@@ -58,10 +58,8 @@ def save_video_comments(video_id: str) -> bool:
         with app.app_context():
             db.session.add_all(replies_snippet_ORM)
             db.session.commit()
+            return True
     except SQLAlchemyError as e:
         print("replies_comment:{}".format(type(e)))
 
-
-if __name__ == '__main__':
-    save_video_comments('jC0cxlW681I')
-    pass
+    return False
