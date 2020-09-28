@@ -1,6 +1,7 @@
+import re
 from .flask_app import create_app
 from crawler import videos
-from models.model import ChannelList, ChannelPlaylistItem,   db,  VideoCategory
+from models.model import ChannelList, ChannelPlaylistItem, VideoDetail,   db,  VideoCategory
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import distinct
 
@@ -42,7 +43,7 @@ def get_db_video_category(regionCode: str):
     return False
 
 
-def get_db_channel_list():
+def get_db_ChannelList_channel_id():
     try:
         with app.app_context():
             channel_list_id = ChannelList.query.with_entities(
@@ -54,7 +55,7 @@ def get_db_channel_list():
     return False
 
 
-def get_playlist_item_id():
+def get_db_ChannelPlayListItem_channel_id():
     try:
         with app.app_context():
             channel_id = ChannelPlaylistItem.query.with_entities(
@@ -62,12 +63,63 @@ def get_playlist_item_id():
             res = [i for (i,) in channel_id]
             return res
     except SQLAlchemyError as e:
-        print("get_playlist_item_id:{}".format(type(e)))
+        print("get_playlist_item_id:{}".format(type(e.args[0])))
+    return False
+
+
+def get_db_ChannelPlayListItem_video_id():
+    try:
+        with app.app_context():
+            video_id = ChannelPlaylistItem.query.with_entities(
+                distinct(ChannelPlaylistItem.video_id)).all()
+            res = [i for (i,) in video_id]
+            return res
+    except SQLAlchemyError as e:
+        print("get_db_ChannelPlayListItem_video_id:{}".format(type(e.args[0])))
+    return False
+
+
+def get_db_VideoDetail_video_id():
+    try:
+        with app.app_context():
+            video_id = VideoDetail.query.with_entities(
+                distinct(VideoDetail.video_id)).all()
+            res = [i for (i,) in video_id]
+            return res
+    except SQLAlchemyError as e:
+        print("get_db_VideoDetail_video_id:{}".format(type(e.args[0])))
     return False
 
 
 def channel_list_except():
-    channel_list = get_db_channel_list()
-    playlist_id = get_playlist_item_id()
-    filter_channel = list(set(playlist_id)-set(channel_list))
-    return filter_channel
+    channel_list = get_db_ChannelList_channel_id()
+    playlist_id = get_db_ChannelPlayListItem_channel_id()
+    if channel_list and playlist_id:
+        filter_channel = list(set(playlist_id)-set(channel_list))
+        return filter_channel
+    return False
+
+
+def video_detail_except():
+    playlist_id = get_db_ChannelPlayListItem_video_id()
+    video_detial_id = get_db_VideoDetail_video_id()
+    if video_detial_id and playlist_id:
+        filter_video = set(playlist_id).difference(set(video_detial_id))
+        return filter_video
+    return False
+
+
+def vietnamese_repleace(translate_string: str) -> str:
+    vietnamese_characters = {
+        'a': "áàãạảAÁÀÃẠẢăắằẵặẳĂẮẰẴẶẲâầấẫậẩÂẤẦẪẬẨ",
+        'e': "éèẽẹẻEÉÈẼẸẺêếềễệểÊẾỀỄỆỂ",
+        'i': "íìĩịỉIÍÌĨỊỈ",
+        'o': "óòõọỏOÓÒÕỌỎôốồỗộổÔỐỒỖỘỔơớờỡợởƠỚỜỠỢỞ",
+        'u': "úùũụủUÚÙŨỤỦưứừữựửƯỨỪỮỰỬ",
+        'y': "ýỳỹỵỷYÝỲỸỴỶ",
+        'd': "dđĐD"
+    }
+    for alpha, vitenames in vietnamese_characters.items():
+        for i in vitenames:
+            translate_string = translate_string.replace(i, alpha)
+    return translate_string
