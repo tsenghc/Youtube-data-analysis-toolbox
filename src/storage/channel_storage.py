@@ -2,7 +2,7 @@ from datetime import datetime
 from sqlalchemy.sql.functions import user
 from .flask_app import create_app
 from sqlalchemy.exc import SQLAlchemyError
-
+from .utils import channel_list_except
 from crawler import subscriptions, channels
 from models.model import Subscriptions, ChannelList, db, ChannelSnippet, ChannelStatistics, \
     ChannelContentDetail
@@ -130,3 +130,21 @@ def save_channel_detail(channel_id: str) -> bool:
         print("contentDetails_model_error{}".format(type(e)))
 
     return False
+
+
+def sync_playlist_with_channelList_channelId():
+    """同步兩個清單的頻道ID
+    """
+    channel_list = channel_list_except()
+    if channel_list:
+        for i in channel_list:
+            channel_list_schemas = {
+                "channel_id": i
+            }
+            channel_list_model = ChannelList(**channel_list_schemas)
+            try:
+                with app.app_context():
+                    db.session.add(channel_list_model)
+                    db.session.commit()
+            except SQLAlchemyError as e:
+                print("channel_list_model_error:{}".format(type(e.args[0])))
