@@ -114,6 +114,14 @@ def save_channel_video_detail(channel_id: str) -> bool:
 
 
 def save_video_detail(video_id: str):
+    """儲存影片詳細資訊
+
+    Args:
+        video_id (str): [video_id]
+
+    Returns:
+        [bool]: [suss/fail]
+    """
     detail = videos.get_video_detail(video_id)
     if 'items' not in detail:
         return False
@@ -143,6 +151,14 @@ def save_video_detail(video_id: str):
 
 
 def save_video_statistics(video_id: str):
+    """儲存影片統計數據
+
+    Args:
+        video_id (str): [video_id]
+
+    Returns:
+        [bool]: [suss/fail]
+    """
     popular_video = videos.get_video_detail(video_id)
     if not popular_video.get('items'):
         return False
@@ -173,7 +189,16 @@ def save_video_statistics(video_id: str):
     return True
 
 
-def save_most_popular_video(regionCode: str, videoCategoryId: int) -> bool:
+def save_most_popular_video(regionCode: str, videoCategoryId: int):
+    """儲存熱門影片排行與統計數據
+
+    Args:
+        regionCode (str): [description]
+        videoCategoryId (int): [description]
+
+    Returns:
+        bool: [description]
+    """    
     popular_video_list = []
     statistics_list = []
     popular_video = videos.foreach_most_popular_video(

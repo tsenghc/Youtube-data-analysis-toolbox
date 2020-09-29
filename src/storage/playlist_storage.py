@@ -65,6 +65,15 @@ def save_channel_playlist_items(channel_id: str) -> bool:
 
 
 def save_channel_videoid(channel_id: str, video_id: str):
+    """儲存單個影片ID與頻道ID
+
+    Args:
+        channel_id (str): [channel_id]
+        video_id (str): [video_id]
+
+    Returns:
+        [bool]]: [suss/fail]
+    """
     schemas = {
         "video_id": video_id,
         "channel_id": channel_id
@@ -79,7 +88,3 @@ def save_channel_videoid(channel_id: str, video_id: str):
     except SQLAlchemyError as e:
         print(type(e))
     return False
-
-
-if __name__ == '__main__':
-    save_channel_playlist_items("UCPRWWKG0VkBA0Pqa4Jr5j0Q")
