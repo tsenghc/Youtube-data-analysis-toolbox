@@ -1,37 +1,28 @@
 import os
+import sys
 
 try:
     API_DEVELOPER_KEY = os.environ["DEVELOPER_KEY"]
 except KeyError:
-    print(KeyError)
+    print("Please check environ variable")
+    print("BaseConfig:{}".format(KeyError))
+    sys.exit()
     # The API_DEVELOPER_KEY is YouTube_Data_API_v3_key
-    API_DEVELOPER_KEY = ""
 
 app_dir = os.path.abspath(os.path.dirname(__file__))
 
 
-class BaseConfig:
+class DevelopmentConfig():
     try:
-        API_DEVELOPER_KEY = os.environ["DEVELOPER_KEY"]
+        POSTGRES = eval(os.environ['POSTGRES_CONFIG'])
     except KeyError:
-        print(KeyError)
-        # The API_DEVELOPER_KEY is YouTube_Data_API_v3_key
-        API_DEVELOPER_KEY = ""
+        print("Please check environ variable")
+        sys.exit()
 
-
-class DevelopmentConfig(BaseConfig):
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {'pool_recycle': 280,
                                  'pool_timeout': 100, 'pool_pre_ping': True}
-
-    POSTGRES = {
-        'user': '',
-        'password': '',
-        'db': '',
-        'host': '',
-        'port': '',
-    }
     SQLALCHEMY_DATABASE_URI = 'postgresql://%(user)s:%(password)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 
 
