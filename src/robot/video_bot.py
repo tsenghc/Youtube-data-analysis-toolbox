@@ -9,6 +9,10 @@ def most_popular_job(region: str):
         region (str): [國籍]
     """
     category_code = utils.get_db_video_category(regionCode=region)
+    if not category_code:
+        print("Can't get category code|{}".format(datetime.datetime.utcnow()))
+        return False
+
     for i in category_code:
         res = video_storage.save_most_popular_video(
             regionCode=region, videoCategoryId=int(i))
@@ -20,7 +24,11 @@ def upload_video_detail():
     """儲存所有影片的詳情資訊，但已存在的不會更新
     """
     video_list = utils.video_detail_except()
-    print(video_list)
+    if not video_list:
+        print("Can't get video id|{}".format(datetime.datetime.utcnow()))
+        return False
+
+    print("Need update video count:{}".format(len(video_list)))
     for i in video_list:
         if video_storage.save_video_detail(video_id=i):
             print("Update video:{} detail|UpdateTime:{}".format(
@@ -32,6 +40,8 @@ def upload_comment():
     """
     video_list = utils.get_db_ChannelPlayListItem_video_id()
     exist_video_comment = utils.get_db_comment_video_id()
+    if not video_list:
+        return False
 
     for i in video_list:
         if i not in exist_video_comment:
