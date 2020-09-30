@@ -24,12 +24,13 @@ class DevelopmentConfig(BaseConfig):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {'pool_recycle': 280,
                                  'pool_timeout': 100, 'pool_pre_ping': True}
+
     POSTGRES = {
-        'user': 'postgres',
-        'password': '4311',
-        'db': 'YTstorage',
-        'host': 'localhost',
-        'port': '5432',
+        'user': '',
+        'password': '',
+        'db': '',
+        'host': '',
+        'port': '',
     }
     SQLALCHEMY_DATABASE_URI = 'postgresql://%(user)s:%(password)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 
