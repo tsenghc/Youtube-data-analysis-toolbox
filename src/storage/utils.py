@@ -1,7 +1,7 @@
 import re
 from .flask_app import create_app
 from crawler import videos
-from models.model import ChannelList, ChannelPlaylistItem, ChannelSnippet, TopLevelComment, VideoDetail,   db,  VideoCategory
+from models.model import ChannelList, ChannelPlaylistItem, ChannelSnippet, MostPopular, TopLevelComment, VideoDetail,   db,  VideoCategory
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import distinct
 
@@ -183,6 +183,28 @@ def video_detail_except():
     if video_detail_id and playlist_id:
         filter_video = list(set(playlist_id).difference(set(video_detail_id)))
         return filter_video
+    return False
+
+
+def except_specific_category_videoId(categoryList: list=[0]):
+    """排除特定主題的影片ID
+
+    Args:
+        categoryList (list): [排除的主題ID(可排除多個主題)]
+
+    Returns:
+        [list]]: [videoID list]
+    """    
+    try:
+        with app.app_context():
+            video_list = db.session.query(distinct(MostPopular.video_id)).join(
+                ChannelPlaylistItem,
+                MostPopular.video_id == ChannelPlaylistItem.video_id).filter(
+                    MostPopular.category_id.notin_(categoryList))
+            res = [i for (i,) in video_list]
+            return res
+    except SQLAlchemyError as e:
+        print("except_specific_category_videoId:{}".format(type(e.args[0])))
     return False
 
 

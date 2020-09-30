@@ -26,6 +26,8 @@ def save_video_comments(video_id: str) -> bool:
     video_replies_comments = comment['replies_comments_list']
     top_exist_comment_id = exist_top_comment_id()
     replies_exist_comment_id = replies_comment_id()
+    print("This video have {} TopComments|{} repliesComments".format(
+        len(video_top_comments), len(video_replies_comments)))
 
     for comment in video_top_comments:
         if comment['id'] not in top_exist_comment_id:
@@ -89,7 +91,7 @@ def recursive_replies(replies_comments):
 
     Returns:
         [list]]: [將裡層的留言遍歷到清單表層]
-    """    
+    """
     comment = []
     for k, v in enumerate(replies_comments):
         if isinstance(v, list):
@@ -105,7 +107,7 @@ def exist_top_comment_id():
 
     Returns:
         [list]]: [留言內容]
-    """    
+    """
     try:
         with app.app_context():
             comment_id = TopLevelComment.query.with_entities(
@@ -122,7 +124,7 @@ def replies_comment_id():
 
     Returns:
         [list]]: [留言內容]
-    """    
+    """
     try:
         with app.app_context():
             comment_id = RepliesComments.query.with_entities(

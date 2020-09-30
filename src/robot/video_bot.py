@@ -35,10 +35,11 @@ def upload_video_detail():
                 i, datetime.datetime.utcnow()))
 
 
-def upload_comment():
+def upload_comment(exceptCategory: list):
     """儲存影片所有留言，已儲存的不會更新
     """
-    video_list = utils.get_db_ChannelPlayListItem_video_id()
+    video_list = utils.except_specific_category_videoId(
+        categoryList=exceptCategory)
     exist_video_comment = utils.get_db_comment_video_id()
     if not video_list:
         return False
