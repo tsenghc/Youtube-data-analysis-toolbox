@@ -10,10 +10,11 @@ def channel_subscription_crawler():
         print("Save channel {} subscripted".format(channel))
 
 
-def channel_detail_crawler():
-    """儲存channelList中的頻道資訊
+def channel_detail_crawler_in_region(region: str):
+    """儲存該國籍channelList中的頻道資訊
     """
-    channel_list = utils.get_db_ChannelList_channel_id()
+    channel_list = utils.get_db_region_channel_id(region)
+    print("This region have {} channels".format(len(channel_list)))
     for channel in channel_list:
         channel_storage.save_channel_detail(channel_id=channel)
         print("Save channel {} detail".format(channel))

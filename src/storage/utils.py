@@ -1,7 +1,7 @@
 import re
 from .flask_app import create_app
 from crawler import videos
-from models.model import ChannelList, ChannelPlaylistItem, TopLevelComment, VideoDetail,   db,  VideoCategory
+from models.model import ChannelList, ChannelPlaylistItem, ChannelSnippet, TopLevelComment, VideoDetail,   db,  VideoCategory
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import distinct
 
@@ -141,6 +141,20 @@ def get_db_comment_video_id():
             return res
     except SQLAlchemyError as e:
         print("get_db_comment_video_id:{}".format(type(e.args[0])))
+    return False
+
+
+def get_db_region_channel_id(region_code: str):
+    try:
+        with app.app_context():
+            channel_id = db.session.query(distinct(ChannelSnippet.channel_id)).join(
+                ChannelPlaylistItem,
+                ChannelSnippet.channel_id == ChannelPlaylistItem.channel_id).filter(
+                    ChannelSnippet.channel_country == region_code)
+            res = [i for (i,) in channel_id]
+            return res
+    except SQLAlchemyError as e:
+        print("get_db_region_channel_id:{}".format(type(e.args[0])))
     return False
 
 

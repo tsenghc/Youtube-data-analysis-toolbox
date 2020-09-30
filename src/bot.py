@@ -10,10 +10,14 @@ scheduler.add_job(video_bot.most_popular_job,
 
 scheduler.add_job(video_bot.upload_video_detail,
                   'interval',
-                  minutes=315)
+                  hours=12)
 
 scheduler.add_job(channel_bot.sync_channelList_channelPlayListItem_channel_id,
                   'interval',
-                  minutes=50)
-scheduler.add_job(channel_bot.channel_detail_crawler, 'interval', minutes=600)
+                  hours=6)
+
+scheduler.add_job(channel_bot.channel_detail_crawler_in_region,
+                  'interval',
+                  hours=20,
+                  args=("TW",))
 scheduler.start()
