@@ -51,11 +51,11 @@ def get_db_video_category(regionCode: str):
     try:
         with app.app_context():
             code = VideoCategory.query.filter_by(
-                region_code=regionCode).with_entities(VideoCategory.category_id).distinct()
+                region_code=regionCode).with_entities(distinct(VideoCategory.category_id))
             res = [i for (i,) in code]
             return res
     except SQLAlchemyError as e:
-        print("check_video_exist:{}".format(type(e)))
+        print("get_db_video_category:{}".format(type(e)))
     return False
 
 
