@@ -9,6 +9,10 @@ def most_popular_job(region: str):
         region (str): [國籍]
     """
     category_code = utils.get_db_video_category(regionCode=region)
+    
+    # 清單此處增加0是為了取得綜合排行，category:0是總和排行的預設參數
+    category_code.append(0)
+
     if not category_code:
         print("Can't get category code|{}".format(datetime.datetime.utcnow()))
         return False
