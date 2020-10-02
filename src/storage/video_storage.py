@@ -123,9 +123,7 @@ def save_video_detail(video_id: str):
         [bool]: [suss/fail]
     """
     detail = videos.get_video_detail(video_id)
-    if 'items' not in detail:
-        return False
-    if len(detail['items']) == 0:
+    if detail.get('error') or len(detail.get('items')) == 0:
         return False
 
     detail = detail['items'][0]
@@ -198,7 +196,7 @@ def save_most_popular_video(regionCode: str, videoCategoryId: int):
 
     Returns:
         bool: [description]
-    """    
+    """
     popular_video_list = []
     statistics_list = []
     popular_video = videos.foreach_most_popular_video(

@@ -9,7 +9,7 @@ def most_popular_job(region: str):
         region (str): [國籍]
     """
     category_code = utils.get_db_video_category(regionCode=region)
-    
+
     # 清單此處增加0是為了取得綜合排行，category:0是總和排行的預設參數
     category_code.append(0)
 
@@ -36,7 +36,10 @@ def upload_video_detail():
     for i in video_list:
         if video_storage.save_video_detail(video_id=i):
             print("Update video:{} detail|UpdateTime:{}".format(
-                i, datetime.datetime.utcnow()))
+                i, datetime.datetime.now()))
+        else:
+            print("Update video:{} detail error|:{}".format(
+                i, datetime.datetime.now()))
 
 
 def upload_comment(exceptCategory: list):
