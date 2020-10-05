@@ -73,7 +73,7 @@ def save_video_comments(video_id: str) -> bool:
                     db.session.add(RepliesComments(
                         **replies_snippet_schemas))
                     db.session.commit()
-                    replies_comment_insert_count
+                    replies_comment_insert_count += 1
                     commit_status["replies_snippet"] = (
                         True, replies_comment_insert_count)
             except SQLAlchemyError as e:
