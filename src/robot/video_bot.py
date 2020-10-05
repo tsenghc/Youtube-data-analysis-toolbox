@@ -42,11 +42,14 @@ def upload_video_detail():
                 i, datetime.datetime.now()))
 
 
-def upload_comment(exceptCategory: list):
+def upload_comment(exceptCategory: list, audio_language: str):
     """儲存影片所有留言，已儲存的不會更新
     """
-    video_list = utils.except_specific_category_videoId(
+    category_filter = utils.except_specific_category_videoId(
         categoryList=exceptCategory)
+    language_filter = utils.specific_default_audio_language_videoId(
+        audio_language)
+    video_list = list(set(language_filter).intersection(set(category_filter)))
     exist_video_comment = utils.get_db_comment_video_id()
     if not video_list:
         return False

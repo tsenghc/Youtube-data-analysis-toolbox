@@ -186,15 +186,15 @@ def video_detail_except():
     return False
 
 
-def except_specific_category_videoId(categoryList: list=[0]):
+def except_specific_category_videoId(categoryList: list = [0]):
     """排除特定主題的影片ID
 
     Args:
         categoryList (list): [排除的主題ID(可排除多個主題)]
 
     Returns:
-        [list]]: [videoID list]
-    """    
+        [list]: [videoID list]
+    """
     try:
         with app.app_context():
             video_list = db.session.query(distinct(MostPopular.video_id)).join(
@@ -205,6 +205,28 @@ def except_specific_category_videoId(categoryList: list=[0]):
             return res
     except SQLAlchemyError as e:
         print("except_specific_category_videoId:{}".format(type(e.args[0])))
+    return False
+
+
+def specific_default_audio_language_videoId(language: str):
+    """保留特定語系影片
+
+    Args:
+        language (str): 語系縮寫EN/zh/zh-TW
+
+    Returns:
+        [list]: [videoID List]
+    """
+    try:
+        with app.app_context():
+            video_list = db.session.query(distinct(MostPopular.video_id)).join(
+                VideoDetail,
+                MostPopular.video_id == VideoDetail.video_id).filter(
+                    VideoDetail.default_audio_language.like("%{}%".format(language)))
+            res = [i for (i,) in video_list]
+            return res
+    except SQLAlchemyError as e:
+        print("specific_default_audio_language_videoId:{}".format(type(e.args[0])))
     return False
 
 
