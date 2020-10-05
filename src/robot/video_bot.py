@@ -14,14 +14,14 @@ def most_popular_job(region: str):
     category_code.append(0)
 
     if not category_code:
-        print("Can't get category code|{}".format(datetime.datetime.utcnow()))
+        print("Can't get category code|{}".format(datetime.datetime.now()))
         return False
 
     for i in category_code:
         res = video_storage.save_most_popular_video(
             regionCode=region, videoCategoryId=int(i))
         print("region:{}|category:{}|{}|UpdateTime:{}".format(
-            region, i, res, datetime.datetime.utcnow()))
+            region, i, res, datetime.datetime.now()))
 
 
 def upload_video_detail():
@@ -29,7 +29,7 @@ def upload_video_detail():
     """
     video_list = utils.video_detail_except()
     if not video_list:
-        print("Can't get video id|{}".format(datetime.datetime.utcnow()))
+        print("Can't get video id|{}".format(datetime.datetime.now()))
         return False
 
     print("Need update video count:{}".format(len(video_list)))
@@ -56,7 +56,7 @@ def upload_comment(exceptCategory: list, audio_language: str):
 
     for i in video_list:
         if i not in exist_video_comment:
-            print("Storag video:{}...".format(i))
+            print("Storag videoID:{}".format(i))
             status = comment_storage.save_video_comments(video_id=i)
             print("Update video:{} comment|Status:{}|UpdateTime:{}".format(
-                i, status, datetime.datetime.utcnow()))
+                i, status, datetime.datetime.now()))
