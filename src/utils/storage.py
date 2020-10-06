@@ -1,5 +1,4 @@
-import re
-from .flask_app import create_app
+from storage.flask_app import create_app
 from crawler import videos
 from models.model import ChannelList, ChannelPlaylistItem, ChannelSnippet, MostPopular, TopLevelComment, VideoDetail,   db,  VideoCategory
 from sqlalchemy.exc import SQLAlchemyError
@@ -226,7 +225,8 @@ def specific_default_audio_language_videoId(language: str):
             res = [i for (i,) in video_list]
             return res
     except SQLAlchemyError as e:
-        print("specific_default_audio_language_videoId:{}".format(type(e.args[0])))
+        print("specific_default_audio_language_videoId:{}".format(
+            type(e.args[0])))
     return False
 
 

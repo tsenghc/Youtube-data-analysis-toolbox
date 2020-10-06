@@ -1,11 +1,12 @@
 from datetime import datetime
-from sqlalchemy.sql.functions import user
-from .flask_app import create_app
+
+from crawler import channels, subscriptions
+from models.model import (ChannelContentDetail, ChannelList, ChannelSnippet,
+                          ChannelStatistics, Subscriptions, db)
 from sqlalchemy.exc import SQLAlchemyError
-from .utils import channel_list_except
-from crawler import subscriptions, channels
-from models.model import Subscriptions, ChannelList, db, ChannelSnippet, ChannelStatistics, \
-    ChannelContentDetail
+from utils.storage import channel_list_except
+
+from .flask_app import create_app
 
 app = create_app('development')
 

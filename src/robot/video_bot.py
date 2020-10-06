@@ -1,5 +1,6 @@
-from storage import video_storage, utils, comment_storage
+from storage import video_storage, comment_storage
 import datetime
+from utils import storage
 
 
 def most_popular_job(region: str):
@@ -8,7 +9,7 @@ def most_popular_job(region: str):
     Args:
         region (str): [國籍]
     """
-    category_code = utils.get_db_video_category(regionCode=region)
+    category_code = storage.get_db_video_category(regionCode=region)
 
     # 清單此處增加0是為了取得綜合排行，category:0是總和排行的預設參數
     category_code.append(0)
@@ -27,7 +28,7 @@ def most_popular_job(region: str):
 def upload_video_detail():
     """儲存所有影片的詳情資訊，但已存在的不會更新
     """
-    video_list = utils.video_detail_except()
+    video_list = storage.video_detail_except()
     if not video_list:
         print("Can't get video id|{}".format(datetime.datetime.now()))
         return False
@@ -45,12 +46,12 @@ def upload_video_detail():
 def upload_comment(exceptCategory: list, audio_language: str):
     """儲存影片所有留言，已儲存的不會更新
     """
-    category_filter = utils.except_specific_category_videoId(
+    category_filter = storage.except_specific_category_videoId(
         categoryList=exceptCategory)
-    language_filter = utils.specific_default_audio_language_videoId(
+    language_filter = storage.specific_default_audio_language_videoId(
         audio_language)
     video_list = list(set(language_filter).intersection(set(category_filter)))
-    exist_video_comment = utils.get_db_comment_video_id()
+    exist_video_comment = storage.get_db_comment_video_id()
     if not video_list:
         return False
 

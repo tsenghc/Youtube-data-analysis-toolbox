@@ -4,7 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from crawler import comments
 from models.model import TopLevelComment, RepliesComments, db
 from sqlalchemy import distinct
-from .utils import pgsql_0x00_repleace
+from utils.storage import pgsql_0x00_repleace
 app = create_app('development')
 
 
