@@ -1,5 +1,6 @@
 from storage import channel_storage
 from utils import storage
+from database import db_channel
 
 
 def channel_subscription_crawler():
@@ -19,6 +20,14 @@ def channel_detail_crawler_in_region(region: str):
     for channel in channel_list:
         channel_storage.save_channel_detail(channel_id=channel)
         print("Save channel {} detail".format(channel))
+
+
+def unknow_channel_detail_crawler():
+    channel_list = db_channel.get_db_unknow_channel_id()
+    print("Have {} unknow channel".format(len(channel_list)))
+    for channel in channel_list:
+        status = channel_storage.save_channel_detail(channel_id=channel)
+        print("Save channel {} detail|status:{}".format(channel, status))
 
 
 def sync_channelList_channelPlayListItem_channel_id():
