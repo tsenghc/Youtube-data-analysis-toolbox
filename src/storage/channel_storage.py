@@ -1,9 +1,11 @@
 from datetime import datetime
+
 from crawler import channels, subscriptions
 from models.model import (ChannelContentDetail, ChannelList, ChannelSnippet,
                           ChannelStatistics, Subscriptions, db)
 from sqlalchemy.exc import SQLAlchemyError
-from utils.storage import channel_list_except, get_db_ChannelList_channel_id
+from utils.storage import (channel_list_except, get_db_ChannelList_channel_id,
+                           pgsql_0x00_repleace)
 
 from .flask_app import create_app
 
@@ -88,11 +90,11 @@ def save_channel_detail(channel_id: str) -> bool:
     }
     statist_schemas = {
         "channel_id": channel_id,
-        "view_count": statistics["viewCount"],
-        "comment_count": statistics["commentCount"],
-        "subscriber_count": statistics["subscriberCount"],
-        "video_count": statistics["videoCount"],
-        "hidden_subscriber_count": statistics["hiddenSubscriberCount"],
+        "view_count": statistics.get("viewCount", 0),
+        "comment_count": statistics.get("commentCount", 0),
+        "subscriber_count": statistics.get("subscriberCount", 0),
+        "video_count": statistics.get("videoCount", 0),
+        "hidden_subscriber_count": statistics.get("hiddenSubscriberCount", 0)
     }
     contentDetails_schemas = {
         "channel_id": channel_id,
@@ -100,9 +102,10 @@ def save_channel_detail(channel_id: str) -> bool:
         "channel_keywords": topicIds,
         "channel_topic_id": str(keywords).split(" "),
     }
-    snippet_model = ChannelSnippet(**snippet_schemas)
+    snippet_model = ChannelSnippet(**pgsql_0x00_repleace(snippet_schemas))
     statist_model = ChannelStatistics(**statist_schemas)
-    contentDetails_model = ChannelContentDetail(**contentDetails_schemas)
+    contentDetails_model = ChannelContentDetail(
+        **pgsql_0x00_repleace(contentDetails_schemas))
     channel_list_model = ChannelList(**channel_list_schemas)
 
     if channel_id not in get_db_ChannelList_channel_id():
