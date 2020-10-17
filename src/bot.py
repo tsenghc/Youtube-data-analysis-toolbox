@@ -14,19 +14,19 @@ if __name__ == '__main__':
                       end_date=end)
 
     scheduler.add_job(video_bot.upload_video_detail,
-                      'corn',
+                      'cron',
                       hour='*/4',
                       start_date=start,
                       end_date=end)
 
     scheduler.add_job(channel_bot.sync_channelList_channelPlayListItem_channel_id,
-                      'corn',
+                      'cron',
                       hour='*/6',
                       start_date=start,
                       end_date=end)
 
     scheduler.add_job(channel_bot.channel_detail_crawler_in_region,
-                      'corn',
+                      'cron',
                       hour='*/9',
                       args=("TW",),
                       start_date=start,
