@@ -62,6 +62,15 @@ def get_most_popular_video(regionCode: str, videoCategoryId: int, maxResults=50,
 
 
 def foreach_most_popular_video(regionCode: str, videoCategoryId: int) -> list:
+    """Traverse this category most popular video
+
+    Args:
+        regionCode (str): The parameter value is an ISO 3166-1 alpha-2 country code.
+        videoCategoryId (int): Youtube categoryId
+
+    Returns:
+        list: {id,snippet,statistics}
+    """
     video_list = []
     popular_video = get_most_popular_video(regionCode, videoCategoryId)
     if not isinstance(popular_video, dict):
@@ -95,7 +104,15 @@ def foreach_most_popular_video(regionCode: str, videoCategoryId: int) -> list:
     return video_list
 
 
-def get_video_category(regionCode: str):
+def get_video_category(regionCode: str) -> dict:
+    """Get video category with region
+
+    Args:
+        regionCode (str): The parameter value is an ISO 3166-1 alpha-2 country code.
+
+    Returns:
+        [dict]: category detail
+    """
     try:
         request = youtube.videoCategories().list(
             part="snippet",

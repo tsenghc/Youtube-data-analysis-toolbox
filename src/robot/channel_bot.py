@@ -25,6 +25,8 @@ def channel_detail_crawler_in_region(region: str):
 
 
 def unknow_channel_detail_crawler():
+    """儲存未知頻道詳細資訊
+    """    
     channel_list = db_channel.get_db_unknow_channel_id()
     logging.info("Have {} unknow channel".format(len(channel_list)))
     for channel in channel_list:
