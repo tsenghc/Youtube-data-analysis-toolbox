@@ -194,6 +194,8 @@ class VideoCategory(db.Model):
     title = db.Column(db.String, nullable=False)
     category_id = db.Column(db.Integer, nullable=False)
     region_code = db.Column(db.String(2), nullable=False)
+    assignable = db.Column(db.BOOLEAN, default=False, nullable=False)
+    channel_id = db.Column(db.String(24), nullable=False)
     update_time = db.Column(db.DateTime, default=func.now(), nullable=False)
 
     def __init__(self, **kwargs):

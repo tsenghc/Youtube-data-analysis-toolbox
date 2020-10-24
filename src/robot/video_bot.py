@@ -15,7 +15,7 @@ def most_popular_job(region: str):
 
     # 清單此處增加0是為了取得綜合排行，category:0是總和排行的預設參數
     category_code.append(0)
-
+    category_code = sorted(category_code)
     if not category_code:
         logging.error("Can't get category code|{}".format(
             datetime.datetime.now()))

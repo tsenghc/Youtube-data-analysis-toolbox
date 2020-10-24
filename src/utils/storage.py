@@ -23,7 +23,9 @@ def save_video_categories(regionCode: str):
         schemas = {
             "title": i['snippet']['title'],
             "category_id": i['id'],
-            "region_code": regionCode
+            "region_code": regionCode,
+            "assignable": i['snippet']['assignable'],
+            "channel_id": i['snippet']['channelId']
         }
         category_model = VideoCategory(**schemas)
 
@@ -39,7 +41,7 @@ def save_video_categories(regionCode: str):
 
 
 def get_db_video_category(regionCode: str):
-    """取得該國即目前已有的主題代號
+    """取得該國即目前可用的主題代號
 
     Args:
         regionCode (str): [國籍簡碼]
@@ -50,7 +52,9 @@ def get_db_video_category(regionCode: str):
     try:
         with app.app_context():
             code = VideoCategory.query.filter_by(
-                region_code=regionCode).with_entities(distinct(VideoCategory.category_id))
+                region_code=regionCode,
+                assignable=True
+            ).with_entities(distinct(VideoCategory.category_id))
             res = [i for (i,) in code]
             return res
     except SQLAlchemyError as e:
