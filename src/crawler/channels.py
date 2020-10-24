@@ -22,10 +22,9 @@ def get_channel_detail(channelId: str) -> dict:
             id=channelId
         )
         response = request.execute()
+        if isinstance(response, dict):
+            return response
     except Exception as e:
         print(e)
-
-    if isinstance(response, dict):
-        return response
 
     return error_code.CHANNELS_API_ERROR
