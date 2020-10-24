@@ -1,5 +1,14 @@
+import logging
+
 from apscheduler.schedulers.blocking import BlockingScheduler
-from robot import video_bot, channel_bot
+
+from robot import channel_bot, video_bot
+import datetime
+FORMAT = '%(asctime)s %(levelname)s: %(message)s'
+DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+
+logging.basicConfig(level=logging.DEBUG, filename='bot-{}.log'.format(datetime.date.today()),
+                    filemode='a', format=FORMAT, datefmt=DATE_FORMAT)
 
 if __name__ == '__main__':
     job_defaults = {'max_instances': 2}
