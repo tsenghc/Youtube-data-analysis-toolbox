@@ -1,5 +1,7 @@
-from storage import video_storage, comment_storage
 import datetime
+import logging
+
+from storage import comment_storage, video_storage
 from utils import storage
 
 
@@ -15,13 +17,14 @@ def most_popular_job(region: str):
     category_code.append(0)
 
     if not category_code:
-        print("Can't get category code|{}".format(datetime.datetime.now()))
+        logging.error("Can't get category code|{}".format(
+            datetime.datetime.now()))
         return False
 
     for i in category_code:
         res = video_storage.save_most_popular_video(
             regionCode=region, videoCategoryId=int(i))
-        print("region:{}|category:{}|{}|UpdateTime:{}".format(
+        logging.info("region:{}|category:{}|{}|UpdateTime:{}".format(
             region, i, res, datetime.datetime.now()))
 
 
@@ -30,16 +33,16 @@ def upload_video_detail():
     """
     video_list = storage.video_detail_except()
     if not video_list:
-        print("Can't get video id|{}".format(datetime.datetime.now()))
+        logging.error("Can't get video id|{}".format(datetime.datetime.now()))
         return False
 
-    print("Need update video count:{}".format(len(video_list)))
+    logging.info("Need update video count:{}".format(len(video_list)))
     for i in video_list:
         if video_storage.save_video_detail(video_id=i):
-            print("Update video:{} detail|UpdateTime:{}".format(
+            logging.info("Update video:{} detail|UpdateTime:{}".format(
                 i, datetime.datetime.now()))
         else:
-            print("Update video:{} detail error|:{}".format(
+            logging.error("Update video:{} detail error|:{}".format(
                 i, datetime.datetime.now()))
 
 
@@ -57,7 +60,7 @@ def upload_comment(exceptCategory: list, audio_language: str):
 
     for i in video_list:
         if i not in exist_video_comment:
-            print("Storag videoID:{}".format(i))
+            logging.info("Storag videoID:{}".format(i))
             status = comment_storage.save_video_comments(video_id=i)
-            print("Update video:{} comment|Status:{}|UpdateTime:{}".format(
+            logging.info("Update video:{} comment|Status:{}|UpdateTime:{}".format(
                 i, status, datetime.datetime.now()))

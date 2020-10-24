@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 
 from crawler import channels, subscriptions
 from models.model import (ChannelContentDetail, ChannelList, ChannelSnippet,
@@ -150,7 +151,7 @@ def save_channel_detail(channel_id: str) -> bool:
     return save_status
 
 
-def sync_playlist_with_channelList_channelId():
+def sync_playlist_with_channelList_channelId() -> bool:
     """同步兩個清單的頻道ID
     """
     channel_list = channel_list_except()
@@ -165,4 +166,7 @@ def sync_playlist_with_channelList_channelId():
                     db.session.add(channel_list_model)
                     db.session.commit()
             except SQLAlchemyError as e:
-                print("channel_list_model_error:{}".format(type(e.args[0])))
+                logging.error(
+                    "channel_list_model_error:{}".format(type(e.args[0])))
+                return False
+    return True

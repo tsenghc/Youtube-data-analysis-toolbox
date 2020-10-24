@@ -1,6 +1,8 @@
+import logging
+
+from database import db_channel
 from storage import channel_storage
 from utils import storage
-from database import db_channel
 
 
 def channel_subscription_crawler():
@@ -9,7 +11,7 @@ def channel_subscription_crawler():
     channel_list = storage.get_db_ChannelList_channel_id()+storage.channel_list_except()
     for channel in channel_list:
         channel_storage.save_channel_subscription(channel_id=channel)
-        print("Save channel {} subscripted".format(channel))
+        logging.info("Save channel {} subscripted".format(channel))
 
 
 def channel_detail_crawler_in_region(region: str):
@@ -19,18 +21,24 @@ def channel_detail_crawler_in_region(region: str):
     print("This region have {} channels".format(len(channel_list)))
     for channel in channel_list:
         channel_storage.save_channel_detail(channel_id=channel)
-        print("Save channel {} detail".format(channel))
+        logging.info("Save channel {} detail".format(channel))
 
 
 def unknow_channel_detail_crawler():
     channel_list = db_channel.get_db_unknow_channel_id()
-    print("Have {} unknow channel".format(len(channel_list)))
+    logging.info("Have {} unknow channel".format(len(channel_list)))
     for channel in channel_list:
         status = channel_storage.save_channel_detail(channel_id=channel)
-        print("Save channel {} detail|status:{}".format(channel, status))
+        logging.info(
+            "Save channel {} detail|status:{}".format(channel, status))
 
 
 def sync_channelList_channelPlayListItem_channel_id():
     """同步channelList與channelPlaylistItem兩表的channelId
     """
-    channel_storage.sync_playlist_with_channelList_channelId()
+    status = channel_storage.sync_playlist_with_channelList_channelId()
+    if status:
+        logging.info("sync_playlist_with_channelList_channelId Suss")
+    else:
+        logging.warning(
+            "sync_playlist_with_channelList_channelId error,incomplete operation")
