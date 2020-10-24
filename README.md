@@ -5,6 +5,10 @@
 * Ubuntu (18.04 or previous version)
 * Windows 10
 * Python 3.8
+* WSGI server
+  *  windows:waitress
+  *  Ubuntu:Gunicorn
+
 ## Quick start
 This porject using Python virtual enviroment
 ```=shell script
@@ -22,7 +26,9 @@ python3 service/manage.py db migrate
 python3 service/manage.py db upgrade
 ```
 ### API server
-
+> windows
 ```=shell script
-python3 service/manage.py runserver
+cd /src
+
+waitress-serve.exe webserver:app
 ```
