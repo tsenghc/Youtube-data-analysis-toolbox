@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
-from sqlalchemy import schema
+
 from oauth.api_oauth import youtube
 from utils import error_code
 
@@ -24,7 +24,7 @@ def get_video_detail(videoId: str) -> dict:
         response = request.execute()
     except Exception as e:
         logging.error(e)
-        response = {"error": e.args[0]["status"]}
+        response = {"error": e}
 
     if isinstance(response, dict):
         return response
@@ -55,7 +55,7 @@ def get_most_popular_video(regionCode: str, videoCategoryId: int, maxResults=50,
         response = request.execute()
     except Exception as e:
         logging.error(e)
-        response = {"error": e.args[0]["status"]}
+        response = {"error": e}
 
     if isinstance(response, dict):
         return response
@@ -121,5 +121,5 @@ def get_video_category(regionCode: str) -> dict:
         response = request.execute()
     except Exception as e:
         logging.error(e)
-        response = {"error": e.args[0]["status"]}
+        response = {"error": e}
     return response
