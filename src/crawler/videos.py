@@ -99,6 +99,8 @@ def foreach_most_popular_video(regionCode: str, videoCategoryId: int) -> list:
                       items['statistics']
                       )
             video_list.append(schema)
+        if token is False:
+            return video_list
         popular_video = get_most_popular_video(
             regionCode, videoCategoryId, pageToken=token)
     return video_list
