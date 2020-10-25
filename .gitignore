@@ -12,3 +12,7 @@ utils/__pycache__/
 src/storage/__pycache__/
 
 *.pyc
+
+*.log
+
+migrations/
