@@ -74,7 +74,7 @@ def save_channel_detail(channel_id: str) -> bool:
     statistics = channel_detail["statistics"]
     contentDetails = channel_detail["contentDetails"]
     topicIds = channel_detail.get("topicDetails", {}).get("topicIds", "")
-    brandingSettings = channel_detail["brandingSettings"]
+    brandingSettings = channel_detail.get("brandingSettings",{})
     keywords = brandingSettings.get("channel", {}).get("keywords", "")
     channel_list_schemas = {
         "channel_id": channel_id
