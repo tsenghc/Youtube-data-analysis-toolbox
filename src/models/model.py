@@ -25,7 +25,7 @@ class ChannelList(db.Model):
     __tablename__ = 'channel_list'
     channel_id = db.Column(db.String(24), nullable=False,
                            primary_key=True, index=True, unique=True)
-
+    update_time = db.Column(db.DateTime, default=func.now(), nullable=False)
     def __init__(self, **kwargs):
         super(ChannelList, self).__init__(**kwargs)
 
@@ -77,7 +77,7 @@ class ChannelContentDetail(db.Model):
     channel_related_playlists = db.Column(db.String(24), nullable=False)
     channel_keywords = db.Column(db.JSON)
     channel_topic_id = db.Column(db.JSON)
-
+    update_time = db.Column(db.DateTime, default=func.now(), nullable=False)
     def __init__(self, **kwargs):
         super(ChannelContentDetail, self).__init__(**kwargs)
 
@@ -87,7 +87,7 @@ class ChannelPlaylistItem(db.Model):
     video_id = db.Column(db.String(11), primary_key=True,
                          nullable=False, index=True, unique=True)
     channel_id = db.Column(db.String(24), nullable=False)
-
+    update_time = db.Column(db.DateTime, default=func.now(), nullable=False)
     def __init__(self, **kwargs):
         super(ChannelPlaylistItem, self).__init__(**kwargs)
 
