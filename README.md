@@ -1,4 +1,4 @@
-# Youtube-data-analysis-toolbox (Youtube影片數據分析工具)
+# Youtube-data-analysis-toolbox
 > Project detail please reference FUTURE.md
 
 ## Requirement
